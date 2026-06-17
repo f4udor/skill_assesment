@@ -7,5 +7,21 @@
 #alla lista aggiungere prenotazioni con la proprietà .append ()
 #per leggerle tutte ciclo for
 
-def say_hello(name):
-    return f"Ciao {name}"
+# creare un bookin system che gestisce tuttie le prenotazioni. un booking è una singola prenotazione.
+
+
+from datetime import datetime
+from dataclasses import dataclass
+
+
+@dataclass
+class Booking:
+    name: str
+    start: datetime
+    end: datetime
+    #struttura della prenotazione, con nome, data di inizio e data di fine
+    
+    class BookingSystem:
+        def __init__(self):
+            self.bookings = []
+    #creato la classe BookingSystem, che inizializza una lista vuota per le prenotazioni
