@@ -1,12 +1,4 @@
-
-from datetime import datetime
-from dataclasses import dataclass
-@dataclass
-class Booking:
-    name: str
-    start: datetime
-    end: datetime
-    #struttura della prenotazione, con nome, data di inizio e data di fine
+from booking import Booking
     
 class BookingSystem:
     def __init__(self):
