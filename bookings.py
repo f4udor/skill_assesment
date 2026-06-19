@@ -17,14 +17,14 @@ class BookingSystem:
         return self.bookings
     #metodo per elencare tutte le prenotazioni
     def add_booking(self, booking: Booking):
+        if (booking.start < datetime.now() or booking.end < datetime.now()):
+            raise ValueError(f"Error: Booking '{booking.name}' cannot be made for a past date.")
         if booking.start >= booking.end: 
             raise ValueError(f"Error: Booking '{booking.name}' has an invalid time range.")
-        #metodo per aggiungere una prenotazione alla lista delle prenotazioni
-        #controllo se la prenotazione ha un intervallo di tempo valido, altrimenti eccezione
-       
         for existing_booking in self.bookings:
             if (booking.start < existing_booking.end and booking.end > existing_booking.start):
                 raise ValueError(f"Error: Booking '{booking.name}' overlaps with existing booking '{existing_booking.name}'.")
+
 
         # If no overlaps, append the booking
         self.bookings.append(booking)
@@ -48,6 +48,11 @@ except ValueError as e:
 booking3 = Booking(name="Alice Johnson", start=datetime(2024, 7, 1, 14, 30), end=datetime(2024, 7, 1, 15, 30))
 try:
     booking_system.add_booking(booking3)
+except ValueError as e:
+    print(e)
+booking4 = Booking(name="Bob Brown", start=datetime(2027, 6, 30, 14, 0), end=datetime(2027, 6, 30, 15, 0))
+try:
+    booking_system.add_booking(booking4)
 except ValueError as e:
     print(e)
 #prenotazioni di esempio
