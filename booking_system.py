@@ -7,6 +7,8 @@ class Booking:
     name: str
     start: datetime
     end: datetime
+    id_: int
+    #mettere id, per identificare univocamente la prenotazione, e facilitare operazioni di aggiornamento e cancellazione
     #struttura della prenotazione, con nome, data di inizio e data di fine
 
 class BookingSystem:
@@ -25,10 +27,13 @@ class BookingSystem:
             if (booking.start < existing_booking.end and booking.end > existing_booking.start):
                 raise ValueError(f"Error: Booking '{booking.name}' overlaps with existing booking '{existing_booking.name}'.")
         self.bookings.append(booking)
-       
-   
-           #implementare logica x cancellare prenotazione
-
+        
+    def remove_booking(self, booking: Booking):
+        if booking in self.bookings:
+            self.bookings.remove(booking)
+        else:
+            raise ValueError(f"Error: Booking '{booking.name}' not found.")
+        
 
             #implementare logica x aggiornare prenotazione
             
