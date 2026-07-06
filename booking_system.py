@@ -2,12 +2,13 @@
 from datetime import datetime
 from dataclasses import dataclass
 
+
 @dataclass
 class Booking:
     name: str
     start: datetime
     end: datetime
-    id_: int
+    id: int
     #mettere id, per identificare univocamente la prenotazione, e facilitare operazioni di aggiornamento e cancellazione
     #struttura della prenotazione, con nome, data di inizio e data di fine
 
@@ -28,11 +29,15 @@ class BookingSystem:
                 raise ValueError(f"Error: Booking '{booking.name}' overlaps with existing booking '{existing_booking.name}'.")
         self.bookings.append(booking)
         
-    def remove_booking(self, booking: Booking):
-        if booking in self.bookings:
-            self.bookings.remove(booking)
-        else:
-            raise ValueError(f"Error: Booking '{booking.name}' not found.")
+    def remove_booking(self, booking_id: int):
+        for booking in self.bookings:
+            if booking_id == booking.id:
+                self.bookings.remove(booking)
+                print(f"Booking with ID '{booking_id}' has been removed.")
+                return
+            else:
+                raise ValueError(f"Error: Booking with ID '{booking_id}' not found.")
+                
         
 
             #implementare logica x aggiornare prenotazione
