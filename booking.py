@@ -23,7 +23,7 @@ try:
     booking_system.add_booking(booking4)
 except ValueError as e:
     print(e)
-booking5 = Booking(name="Charlie Davis", start=datetime(2027, 7, 1, 15, 0), end=datetime(2027, 7, 1, 14, 0), id=5)
+booking5 = Booking(name="Charlie Davis", start=datetime(2027, 7, 1, 12, 0), end=datetime(2027, 7, 1, 14, 0), id=5)
 try:
     booking_system.add_booking(booking5)
 except ValueError as e:
@@ -34,6 +34,13 @@ except ValueError as e:
         booking_system.remove_booking(remove_booking_id)
     except ValueError as e:
         print(e)
+        
+update_booking_id = 5
+new_name = "Charlie Davis Updated"
+try:
+    booking_system.update_booking(update_booking_id, new_name, None, None)
+except ValueError as e:
+    print(e)
         
 for booking in booking_system.list_bookings():
     if booking.start >= booking.end:

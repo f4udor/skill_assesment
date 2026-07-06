@@ -34,13 +34,32 @@ class BookingSystem:
             if booking_id == booking.id:
                 self.bookings.remove(booking)
                 print(f"Booking with ID '{booking_id}' has been removed.")
-                return
+                
             else:
                 raise ValueError(f"Error: Booking with ID '{booking_id}' not found.")
                 
-        
+    def update_booking(self, booking_id:int, new_name: str, new_start: datetime, new_end: datetime):
+        for booking in self.bookings:
+            if booking.id == booking_id:
+                final_name = new_name if new_name is not None else booking.name
+                final_start = new_start if new_start is not None else booking.start
+                final_end = new_end if new_end is not None else booking.end
 
-            #implementare logica x aggiornare prenotazione
-            
+                if final_start < datetime.now() or final_end < datetime.now():
+                    raise ValueError(f"Error: Updated booking '{final_name}' cannot be made for a past date.")
+                if final_start >= final_end:
+                    raise ValueError(f"Error: Updated booking '{final_name}' has an invalid time range.")
+                
+                for existing_booking in self.bookings:
+                     if existing_booking.id != booking_id and (final_start < existing_booking.end and final_end > existing_booking.start):
+                        raise ValueError(f"Error: Updated booking '{final_name}' overlaps with existing booking '{existing_booking.name}'.")
+
+                booking.name = final_name
+                booking.start = final_start
+                booking.end = final_end
+                
+                print(f"Booking with ID '{booking_id}' has been updated.")
+                return
+        raise ValueError(f"Error: Booking with ID '{booking_id}' not found.")
 
 
