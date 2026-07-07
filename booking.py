@@ -48,9 +48,13 @@ try:
 except ValueError as e:
     print(e)
 
+#prenotazioni di esempio
+
+
 for booking in booking_system.list_bookings():
     if booking.start >= booking.end:
         print(f"Error: Booking '{booking.name}' has an invalid time range.")
     else:
         print(f"Booking: {booking.name}, Room: {booking.room}, Start: {booking.start}, End: {booking.end}")
-#prenotazioni di esempio
+
+#stampa delle prenotazioni, con controllo della validità dell'intervallo di tempo

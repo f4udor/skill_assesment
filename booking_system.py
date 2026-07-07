@@ -52,7 +52,7 @@ class BookingSystem:
                     raise ValueError(f"Error: Updated booking '{final_name}' has an invalid time range.")
                 
                 for existing_booking in self.bookings:
-                     if existing_booking.room == final.room:   
+                     if existing_booking.room == final_room:   
                         if existing_booking.id != booking_id and (final_start < existing_booking.end and final_end > existing_booking.start):
                             raise ValueError(f"Error: Updated booking '{final_name}' overlaps with existing booking '{existing_booking.name}'.")
 
@@ -64,5 +64,14 @@ class BookingSystem:
                 print(f"Booking with ID '{booking_id}' has been updated.")
                 return
         raise ValueError(f"Error: Booking with ID '{booking_id}' not found.")
+    
+    def find_avaible_slots(self, room: str, date: datetime):
+        slots = []
+        start_of_day = datetime(date.year, date.month, date.day, 0, 0)
+        end_of_day = datetime(date.year, date.month, date.day, 23, 59)
+        current_time = start_of_day
+
+
+       
 
 
