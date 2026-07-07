@@ -52,7 +52,7 @@ class BookingSystem:
                     raise ValueError(f"Error: Updated booking '{final_name}' has an invalid time range.")
                 
                 for existing_booking in self.bookings:
-                     if final_room == booking.room:   
+                     if existing_booking.room == final.room:   
                         if existing_booking.id != booking_id and (final_start < existing_booking.end and final_end > existing_booking.start):
                             raise ValueError(f"Error: Updated booking '{final_name}' overlaps with existing booking '{existing_booking.name}'.")
 
