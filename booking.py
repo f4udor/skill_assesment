@@ -27,6 +27,10 @@ for update in updates:
     except ValueError as e:
         print(e)
 
+booking_system.remove_booking(3)
+
+
+
 for booking in booking_system.list_bookings():
     print(f"Booking ID: {booking.id}, Name: {booking.name}, Room: {booking.room}, Start: {booking.start}, End: {booking.end}")
     
