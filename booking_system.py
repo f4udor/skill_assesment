@@ -29,7 +29,6 @@ class BookingSystem:
                     raise ValueError(f"Error: Booking '{booking.name}' overlaps with existing booking '{existing_booking.name}'.")
         self.bookings.append(booking)
         
-        
     def remove_booking(self, booking_id: int):
         for booking in self.bookings:
             if booking_id == booking.id:
@@ -42,26 +41,30 @@ class BookingSystem:
     def update_booking(self, booking_id:int, new_name: str, new_room: str, new_start: datetime, new_end: datetime):
         for booking in self.bookings:
             if booking.id == booking_id:
-                final_name = new_name if new_name is not None else booking.name
-                final_room = new_room if new_room is not None else booking.room
-                final_start = new_start if new_start is not None else booking.start
-                final_end = new_end if new_end is not None else booking.end
-                # todo: pulire le duplicazioni in modo da non dover aggiungere final_name = new_name if new_name is not None else booking.name per ogni campo
+                update_fields = {
+                    "name": new_name,
+                    "room": new_room,
+                    "start": new_start,
+                    "end": new_end
+                }
+                final_fields = {}
+                for field_name, new_value in update_fields.items():
+                    final_fields[field_name] = new_value if new_value is not None else getattr(booking, field_name)
 
-                if final_start < datetime.now() or final_end < datetime.now():
-                    raise ValueError(f"Error: Updated booking '{final_name}' cannot be made for a past date.")
-                if final_start >= final_end:
-                    raise ValueError(f"Error: Updated booking '{final_name}' has an invalid time range.")
-                
+                # todo: pulire le duplicazioni in modo da non dover aggiungere final_name = new_name if new_name
+
+                if final_fields["start"] < datetime.now() or final_fields["end"] < datetime.now():
+                    raise ValueError(f"Error: Updated booking '{final_fields['name']}' cannot be made for a past date.")
+                if final_fields["start"] >= final_fields["end"]:
+                    raise ValueError(f"Error: Updated booking '{final_fields['name']}' has an invalid time range.")
+
                 for existing_booking in self.bookings:
-                     if existing_booking.room == final_room:   
-                        if existing_booking.id != booking_id and (final_start < existing_booking.end and final_end > existing_booking.start):
-                            raise ValueError(f"Error: Updated booking '{final_name}' overlaps with existing booking '{existing_booking.name}'.")
+                     if existing_booking.room == final_fields["room"]:   
+                        if existing_booking.id != booking_id and (final_fields["start"] < existing_booking.end and final_fields["end"] > existing_booking.start):
+                            raise ValueError(f"Error: Updated booking '{final_fields['name']}' overlaps with existing booking '{existing_booking.name}'.")
 
-                booking.name = final_name
-                booking.room = final_room
-                booking.start = final_start
-                booking.end = final_end
+                for field_name, new_value in final_fields.items():
+                    setattr(booking, field_name, new_value)
                 
                 print(f"Booking with ID '{booking_id}' has been updated.")
                 return
