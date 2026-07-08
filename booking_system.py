@@ -29,6 +29,7 @@ class BookingSystem:
                     raise ValueError(f"Error: Booking '{booking.name}' overlaps with existing booking '{existing_booking.name}'.")
         self.bookings.append(booking)
         
+        
     def remove_booking(self, booking_id: int):
         for booking in self.bookings:
             if booking_id == booking.id:
@@ -45,6 +46,7 @@ class BookingSystem:
                 final_room = new_room if new_room is not None else booking.room
                 final_start = new_start if new_start is not None else booking.start
                 final_end = new_end if new_end is not None else booking.end
+                # todo: pulire le duplicazioni in modo da non dover aggiungere final_name = new_name if new_name is not None else booking.name per ogni campo
 
                 if final_start < datetime.now() or final_end < datetime.now():
                     raise ValueError(f"Error: Updated booking '{final_name}' cannot be made for a past date.")
