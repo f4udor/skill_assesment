@@ -50,33 +50,35 @@ class BookingSystem:
                 final_fields = {}
                 for field_name, new_value in update_fields.items():
                     final_fields[field_name] = new_value if new_value is not None else getattr(booking, field_name)
-
-                # todo: pulire le duplicazioni in modo da non dover aggiungere final_name = new_name if new_name
-
                 if final_fields["start"] < datetime.now() or final_fields["end"] < datetime.now():
                     raise ValueError(f"Error: Updated booking '{final_fields['name']}' cannot be made for a past date.")
                 if final_fields["start"] >= final_fields["end"]:
                     raise ValueError(f"Error: Updated booking '{final_fields['name']}' has an invalid time range.")
-
                 for existing_booking in self.bookings:
                      if existing_booking.room == final_fields["room"]:   
                         if existing_booking.id != booking_id and (final_fields["start"] < existing_booking.end and final_fields["end"] > existing_booking.start):
                             raise ValueError(f"Error: Updated booking '{final_fields['name']}' overlaps with existing booking '{existing_booking.name}'.")
-
                 for field_name, new_value in final_fields.items():
                     setattr(booking, field_name, new_value)
-                
                 print(f"Booking with ID '{booking_id}' has been updated.")
                 return
         raise ValueError(f"Error: Booking with ID '{booking_id}' not found.")
     
-    def find_avaible_slots(self, room: str, date: datetime):
+    def find_available_slots(self, room: str, date: datetime):
         slots = []
-        start_of_day = datetime(date.year, date.month, date.day, 0, 0)
-        end_of_day = datetime(date.year, date.month, date.day, 23, 59)
+        start_of_day = datetime(date.year, date.month, date.day, 8, 0)
+        end_of_day = datetime(date.year, date.month, date.day, 18, 0)
         current_time = start_of_day
-
-
-       
+        for booking in self.bookings:
+            if booking.room == room and booking.start.date() == date.date():
+                if current_time < booking.start:
+                    slots.append((current_time, booking.start))
+                current_time = max(current_time, booking.end)
+        if current_time < end_of_day:
+            slots.append((current_time, end_of_day))
+        return slots
+               #todo: 
+               # 1. ordinare self.bookings cronologicamente 
+               # 2. controllare anche end, se ci sono prenotazioni che iniziano nella giornata precedente non le posso ignorare
 
 
