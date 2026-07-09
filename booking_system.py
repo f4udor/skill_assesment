@@ -66,19 +66,20 @@ class BookingSystem:
     
     def find_available_slots(self, room: str, date: datetime):
         slots = []
+        def get_start(booking):
+            return booking.start
+        sorted_bookings = sorted(self.bookings, key=get_start)
         start_of_day = datetime(date.year, date.month, date.day, 8, 0)
         end_of_day = datetime(date.year, date.month, date.day, 18, 0)
         current_time = start_of_day
-        for booking in self.bookings:
-            if booking.room == room and booking.start.date() == date.date():
+        for booking in sorted_bookings:
+            if booking.room == room and booking.start.date() == date.date() and booking.end.date() == date.date():
                 if current_time < booking.start:
                     slots.append((current_time, booking.start))
                 current_time = max(current_time, booking.end)
         if current_time < end_of_day:
             slots.append((current_time, end_of_day))
         return slots
-               #todo: 
-               # 1. ordinare self.bookings cronologicamente 
-               # 2. controllare anche end, se ci sono prenotazioni che iniziano nella giornata precedente non le posso ignorare
+
 
 

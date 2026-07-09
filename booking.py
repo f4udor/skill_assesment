@@ -36,4 +36,16 @@ for booking in booking_system.list_bookings():
     
 
 
-#stampa delle prenotazioni, con controllo della validità dell'intervallo di tempo
+
+searches = [
+    ("A", datetime(2024, 6, 1)),
+    ("B", datetime(2027, 6, 2)),
+]
+
+
+
+for room, date in searches:
+    available_slots = booking_system.find_available_slots(room, date)
+    for start, end in available_slots:
+        print(f"Available slots for room {room} on date {date.date()}: Start: {start}, End: {end}")
+
