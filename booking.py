@@ -9,6 +9,7 @@ bookings = [
     Booking(name="Jane Smith", room="A", start=datetime(2024, 6, 1, 15, 0), end=datetime(2024, 6, 1, 17, 0), id=2),
     Booking(name="Alice Johnson", room="B", start=datetime(2027, 6, 2, 10, 0), end=datetime(2027, 6, 2, 12, 0), id=3),
     Booking(name="Bob Brown", room="B", start=datetime(2026, 8, 2, 11, 0), end=datetime(2026, 8, 2, 13, 0), id=4),
+    Booking(name="Brother Johnson", room="B", start=datetime(2027, 7, 2, 10, 0), end=datetime(2027, 7, 2, 12, 0), id=3),
 ]
 
 for booking in bookings:
