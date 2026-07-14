@@ -27,7 +27,8 @@ for update in updates:
     except ValueError as e:
         print(e)
 
-booking_system.remove_booking(3)
+booking_system.remove_booking(4)
+
 
 
 
@@ -41,7 +42,6 @@ searches = [
     ("A", datetime(2024, 6, 1)),
     ("B", datetime(2027, 6, 2)),
 ]
-
 
 
 for room, date in searches:

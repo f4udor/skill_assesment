@@ -28,15 +28,17 @@ class BookingSystem:
                 if (booking.start < existing_booking.end and booking.end > existing_booking.start):
                     raise ValueError(f"Error: Booking '{booking.name}' overlaps with existing booking '{existing_booking.name}'.")
         self.bookings.append(booking)
+        #todo: non viene controllato ID, quindi potrei aggiungere una prenotazione con stesso id di una precedente
         
     def remove_booking(self, booking_id: int):
         for booking in self.bookings:
             if booking_id == booking.id:
                 self.bookings.remove(booking)
                 print(f"Booking with ID '{booking_id}' has been removed.")
-                
-            else:
-                raise ValueError(f"Error: Booking with ID '{booking_id}' not found.")
+                break
+        else:
+            raise ValueError(f"Error: Booking with ID '{booking_id}' not found.")
+                        #todo: il remove non cerca nell'intera lista ma si ferma al primo elemento
                 
     def update_booking(self, booking_id:int, new_name: str, new_room: str, new_start: datetime, new_end: datetime):
         for booking in self.bookings:
